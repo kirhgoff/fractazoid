@@ -1,5 +1,6 @@
 use num_complex::Complex;
 use crate::types::*;
+use crate::parameters::Parameters;
 
 pub struct Screen {
     pub origin: Complex<RealNumber>,
@@ -12,6 +13,17 @@ pub struct Screen {
 }
 
 impl Screen {
+    pub fn from(params: &Parameters) -> Screen {
+        return Screen::new(
+            params.origin_re,
+            params.origin_im,
+            params.real_width,
+            params.real_height,
+            params.screen_width,
+            params.screen_height
+        );
+    }
+
     pub fn new(
         origin_re: RealNumber,
         origin_im: RealNumber,

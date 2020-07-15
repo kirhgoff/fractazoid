@@ -1,4 +1,5 @@
 use crate::types::*;
+use crate::parameters::Parameters;
 
 use std::collections::HashMap;
 
@@ -10,14 +11,16 @@ pub struct Renderer {
 }
 
 impl Renderer {
+    pub fn from(params: &Parameters) -> Renderer {
+        return Renderer::new(
+            params.max_iterations,
+            params.chars
+        );
+    }
+
     pub fn new(max_iterations: ScreenNumber, all_chars: &str) -> Renderer {
         let mut chars = HashMap::new();
-        let mut index = 0;
-        for character in all_chars.chars() {
-            chars.insert(index, character);
-            index += 1;
-        }
-        let chars_count = index;
+        let chars_count = char_count(all_chars);
         let iterations_per_char = (max_iterations as RealNumber) / (chars_count as RealNumber);
 
         return Renderer { max_iterations, chars, iterations_per_char, chars_count }

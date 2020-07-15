@@ -1,5 +1,6 @@
 use num_complex::Complex;
 use crate::types::*;
+use crate::parameters::Parameters;
 
 pub struct LimitDetector {
     pub max_iterations: ScreenNumber,
@@ -8,8 +9,16 @@ pub struct LimitDetector {
 }
 
 impl LimitDetector {
-    pub fn iterations(&self, number: Complex<RealNumber>) -> ScreenNumber {
 
+    pub fn from(params: &Parameters) -> LimitDetector {
+        return LimitDetector {
+            max_iterations: params.max_iterations,
+            max_absolute_value: params.max_absolute_value,
+            function: params.function
+        }
+    }
+
+    pub fn iterations(&self, number: Complex<RealNumber>) -> ScreenNumber {
         let mut current = number;
         let mut iterations = 0;
 
