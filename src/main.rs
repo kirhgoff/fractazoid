@@ -2,6 +2,7 @@ use num_complex::Complex;
 
 type RealNumber = f64;
 type ScreenNumber = i64; // TODO: find better name
+type Function = dyn Fn(Complex<RealNumber>) -> Complex<RealNumber>;
 
 struct LimitDetector {
     max_iterations: ScreenNumber,
@@ -38,23 +39,12 @@ fn main() {
 mod tests {
     use super::*;
 
-    fn build_limit_detector() -> LimitDetector {
-        //let constant: Complex<RealNumber> = Complex::new(1.0, 1.0);
-        // let function = ;
-        return LimitDetector {
-            max_iterations: 10,
-            max_absolute_value: 20.0,
-            function: &|z: Complex<RealNumber>| z + Complex::new(1.0, 1.0)
-        };
+    fn build_limit_detector(max_iterations: ScreenNumber, max_absolute_value: RealNumber, function: &'static Function) -> LimitDetector {
+        return LimitDetector { max_iterations, max_absolute_value, function };
     }
 
     #[test]
-    fn test_limit_detector1() {
-        let limit_detector = LimitDetector {
-            max_iterations: 10,
-            max_absolute_value: 20.0,
-            function: &|z| z + Complex::new(1.0, 1.0)
-        };
+    fn test_limit_detector_moving_out() {
         // iteration z module
         // 0    0,0     0
         // 1    1,1     2
@@ -62,8 +52,34 @@ mod tests {
         // 3    3,3     18
         // 4    4,4     32
 
-        let input = Complex::new(0.0, 0.0);
-        let result = limit_detector.iterations(input);
+        let limit_detector = build_limit_detector(
+            10,
+            20.0,
+            &|z: Complex<RealNumber>| z + Complex::new(1.0, 1.0)
+        );
+        let result = limit_detector.iterations(Complex::new(0.0, 0.0));
         assert_eq!(4, result);
+    }
+
+    #[test]
+    fn test_limit_detector_stable_point() {
+        let limit_detector = build_limit_detector(
+            10,
+            20.0,
+            &|z: Complex<RealNumber>| z
+        );
+        let result = limit_detector.iterations(Complex::new(0.0, 0.0));
+        assert_eq!(10, result);
+    }
+
+    #[test]
+    fn test_limit_detector_greater_than_abs_number() {
+        let limit_detector = build_limit_detector(
+            10,
+            20.0,
+            &|z: Complex<RealNumber>| z
+        );
+        let result = limit_detector.iterations(Complex::new(100.0, 100.0));
+        assert_eq!(0, result);
     }
 }
