@@ -6,6 +6,7 @@ pub struct Renderer {
     pub max_iterations: ScreenNumber,
     pub chars: HashMap<ScreenNumber, char>,
     iterations_per_char: RealNumber,
+    chars_count: ScreenNumber
 }
 
 impl Renderer {
@@ -13,17 +14,29 @@ impl Renderer {
         let mut chars = HashMap::new();
         let mut index = 0;
         for character in all_chars.chars() {
-            index += 1;
             chars.insert(index, character);
+            index += 1;
         }
         let chars_count = index;
         let iterations_per_char = (max_iterations as RealNumber) / (chars_count as RealNumber);
 
-        return Renderer { max_iterations, chars, iterations_per_char }
+        return Renderer { max_iterations, chars, iterations_per_char, chars_count }
     }
 
-    pub fn render(&self, iteration: ScreenNumber) -> char {
-        return 's';
+    pub fn render(&self, iteration: ScreenNumber) -> &char {
+        assert!(
+            iteration >= 0 && iteration < self.max_iterations,
+            format!(
+                "Invalid iteration: {} allowed max: {}",
+                iteration, self.max_iterations
+            )
+        );
+        let index = ((iteration as RealNumber) / self.iterations_per_char).floor() as ScreenNumber;
+        assert!(
+            index < self.chars_count,
+            format!("Index {} should be less than {}", index, self.chars_count)
+        );
+        return self.chars.get(&index).unwrap();
     }
 }
 
@@ -33,21 +46,21 @@ mod tests {
 
     fn renderer() -> Renderer {
         // 12 characters
-        return Renderer::new(24, &String::from(".,-~:;=!*#$@"));
+        return Renderer::new(24, &String::from("abcdefghhijk"));
     }
 
     #[test]
     fn test_renderer_first() {
-        assert_eq!('.', renderer().render(0));
+        assert_eq!('a', *renderer().render(0));
     }
 
     #[test]
     fn test_renderer_last() {
-        assert_eq!('@', renderer().render(24));
+        assert_eq!('k', *renderer().render(24 - 1));
     }
 
     #[test]
     fn test_renderer_some() {
-        assert_eq!('-', renderer().render(6));
+        assert_eq!('d', *renderer().render(6)); // a:0,1, b:2,3, c:4,5 d:6
     }
 }

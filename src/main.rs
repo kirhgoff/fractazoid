@@ -8,6 +8,7 @@ use num_complex::Complex;
 // TODO: should it be like that?
 use crate::limit_detector::LimitDetector;
 use crate::screen::Screen;
+use crate::renderer::Renderer;
 use crate::types::*;
 
 fn main() {
@@ -28,4 +29,6 @@ fn main() {
         10,
         10
     );
+
+    let renderer = Renderer::new(24, &String::from("abcdefghhijk"));
 }
