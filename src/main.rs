@@ -40,6 +40,16 @@ fn main() {
     let screen = Screen::from(&params);
     let renderer = Renderer::from(&params);
 
-    let output: Vec<char> = vec![];
-    //for y in
+    let mut output: Vec<char> = vec![];
+    for y in 0..params.screen_height {
+        for x in 0..params.screen_width {
+            let z = screen.convert(x, y);
+            let iterations = limit_detector.iterations(z);
+            let cell = renderer.render(iterations);
+            output.push(*cell)
+        }
+        output.push('\n')
+    }
+    let string: String = output.into_iter().collect();
+    println!("{}", string);
 }

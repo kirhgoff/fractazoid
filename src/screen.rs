@@ -53,7 +53,7 @@ impl Screen {
 
         return Complex::new(
             self.origin.re + dx,
-            self.origin.im - dx
+            self.origin.im - dy
         )
     }
 }

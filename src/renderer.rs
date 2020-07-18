@@ -19,7 +19,7 @@ impl Renderer {
     }
 
     pub fn new(max_iterations: ScreenNumber, all_chars: &str) -> Renderer {
-        let mut chars = HashMap::new();
+        let chars = HashMap::new();
         let chars_count = char_count(all_chars);
         let iterations_per_char = (max_iterations as RealNumber) / (chars_count as RealNumber);
 
