@@ -23,7 +23,11 @@ impl LimitDetector {
         let mut iterations = 0;
 
         loop {
-            if iterations >= self.max_iterations || current.norm_sqr() >= self.max_absolute_value {
+            if iterations >= self.max_iterations {
+                iterations -= 1;
+                break;
+            }
+            if current.norm_sqr() >= self.max_absolute_value {
                 break;
             }
             current = (self.function)(current);
