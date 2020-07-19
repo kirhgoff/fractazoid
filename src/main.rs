@@ -13,7 +13,9 @@ use crate::renderer::Renderer;
 use crate::parameters::Parameters;
 use crate::types::Function;
 
-const CHARS: &str = " .`:,;'_^\"></-!~=)(|j?}{ ][ti+l7v1%yrfcJ32uIC$zwo96sngaT5qpkYVOL40&mG8*xhedbZUSAQPFDXWK#RNEHBM@";
+//const CHARS: &str = ".`:,;'_^\"></-!~=)(|j?}{ ][ti+l7v1%yrfcJ32uIC$zwo96sngaT5qpkYVOL40&mG8*xhedbZUSAQPFDXWK#RNEHBM@ ";
+const CHARS: &str = "─━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋ ";
+//const CHARS: &str = "┥┝┺╋┞┣┡┿┲┹┳┨┊╅┼┪╊┩┅┚┋┫└┵┍┠┇┏╇╆┛┗┙│┖┃┕┰╃ ┒┘┆├┭┟┦┈┷┽╂━┯─┧┎┶┱┸╀┢╉┮╁┾┄┓┉╄┐┑┴┌┻╈┬┤";
 const FORMULA: &Function = &| z | z*z + Complex::new(-0.75, 0.1);
 
 fn main() {
